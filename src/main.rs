@@ -1,4 +1,5 @@
 use std::borrow::Cow;
+use std::io::{self, Write, BufWriter};
 
 fn fizzbuzz(i: i32) -> Cow<'static, str> {
     match (i % 3, i % 5) {
@@ -10,7 +11,9 @@ fn fizzbuzz(i: i32) -> Cow<'static, str> {
 }
 
 fn main() {
+    let mut stdout = BufWriter::new(io::stdout().lock());
     for i in (1..=1000000).map(fizzbuzz) {
-        println!("{}", i);
+        //println!("{}", i);
+        let _ = stdout.write_fmt(format_args!("{}\n", i.as_ref()));
     }
 }
